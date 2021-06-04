@@ -14,8 +14,6 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 
-
-
 app.all('/*', (req, res) => {
     res
         .status(404)
