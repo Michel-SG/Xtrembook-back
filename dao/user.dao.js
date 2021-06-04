@@ -11,3 +11,13 @@ exports.addUser = (client, idAdresse) => {
                 });
     });
 };
+
+exports.verifyUser = (email) => {
+    return new Promise((resolve, reject) => {
+        const req = connection.query(
+            "SELECT * FROM user WHERE email = ?", email, (err, result) => {
+                console.log(req.sql)
+                err ? reject(err) : resolve(result);
+            });
+    });
+};
