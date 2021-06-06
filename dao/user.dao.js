@@ -1,7 +1,8 @@
 const connection = require('../database.js');
 
 exports.addUser = (client, idAdresse) => {
-    let idAdmin = 1;
+    let idAdmin = 0;
+    // console.log("voici mon mot de passe"+client.motDePasse)
     return new Promise((resolve, reject) => {
         const req = connection.query(
             "INSERT INTO user SET email = ?, motDePasse = ?, nom = ?, prenom = ?, idAfacturation = ?, idadmin = ?", [client.email, client

@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const passwordHash = require('password-hash');
 const adresseDao = require('../dao/adresse.dao');
 const userDao = require('../dao/user.dao');
 const user = require("../models/user");
@@ -13,6 +14,7 @@ exports.creerUser = async (req, res, next) => {
         req.body.adresse,
         req.body.idadmin
     );
+
     let adresseFacturation = client.adresse[0];
     let result = await adresseDao.addAdresse(adresseFacturation).catch(err => {
         return res.status(500).json({
@@ -20,15 +22,22 @@ exports.creerUser = async (req, res, next) => {
         });
     });
     let idA = result.insertId;
-    bcrypt.hash(req.body.motDePasse, 10, (err, hash) => {
+
+    bcrypt.hash(req.body.motDePasse, 10)
+    .then((hash)=>{
+         console.log("mot hacher "+hash)
         client.motDePasse = hash;
-        let resultat = userDao.addUser(client, idA)
-            .catch(err => {
-                return res.status(500).json({
-                    error: `problème d'insertion dans personne: ${err}`
-                });
+        userDao.addUser(client, idA)
+        .then((result) => {
+            client.idU = result.insertId;
+            res.status(201).json(client);
+        })
+        .catch(err => {
+            return res.status(400).json({
+                error: `problème d'insertion dans personne: ${err}`
             });
-        client.idU = resultat.insertId;
+        });
+    
     })
-    res.status(200).json(client);
+    .catch(error=>res.status(500).json({error}));         
 }
