@@ -24,20 +24,39 @@ exports.creerUser = async (req, res, next) => {
     let idA = result.insertId;
 
     bcrypt.hash(req.body.motDePasse, 10)
-    .then((hash)=>{
-         console.log("mot hacher "+hash)
-        client.motDePasse = hash;
-        userDao.addUser(client, idA)
+        .then((hash) => {
+            console.log("mot hacher " + hash)
+            client.motDePasse = hash;
+            userDao.addUser(client, idA)
+                .then((result) => {
+                    client.idU = result.insertId;
+                    res.status(201).json(client);
+                })
+                .catch(err => {
+                    return res.status(400).json({
+                        error: `problème d'insertion dans personne: ${err}`
+                    });
+                });
+
+        })
+        .catch(error => res.status(500).json({ error }));
+}
+
+exports.connexion = (req, res, next) => {
+    userDao.verifyUser(req.body.email)
         .then((result) => {
-            client.idU = result.insertId;
-            res.status(201).json(client);
+            bcrypt.compare(req.body.motDePasse, result[0].motDePasse)
+                .then((valid) => {
+                    if (!valid) {
+                        return res.status(401).json({ error: "problème de connexion, votre email ou mot de passe est incorrect !" });
+                    }
+                    res.status(200).json(result);
+                })
+                .catch((error) => res.status(500).json({ error }));
         })
         .catch(err => {
-            return res.status(400).json({
-                error: `problème d'insertion dans personne: ${err}`
+            return res.status(500).json({
+                error: `problème de connexion, votre email ou mot de passe est incorrect !`
             });
         });
-    
-    })
-    .catch(error=>res.status(500).json({error}));         
 }
