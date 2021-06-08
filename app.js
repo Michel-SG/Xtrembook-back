@@ -3,7 +3,7 @@ const app = express();
 require('dotenv').config();
 
 const userRoute = require('./routes/user.route');
-
+const articleRoute = require('./routes/article.route');
 
 
 app.use((req, res, next) => {
@@ -16,6 +16,7 @@ app.use(express.json());
 
 
 app.use('/api/user', userRoute);
+app.use('/article',articleRoute);
 app.all('/*', (req, res) => {
     res
         .status(404)
