@@ -24,7 +24,7 @@ exports.add = (req, res, next) => {
     articleDao
       .add(a)
       .then((result) => {
-        a.id = result.insertId;
+        a.referenceArticle = result.insertId;
         return res.status(201).json(a);
       })
       .catch((err) => {
