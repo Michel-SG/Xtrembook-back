@@ -1,8 +1,8 @@
-const article = require("../models/article");
-const articleDao = require("../dao/article.dao");
+const editeur = require("../models/editeur");
+const editeurDao = require("../dao/editeur.dao");
 
 exports.getAll = (req, res, next) => {
-  articleDao
+  editeurDao
     .getAll()
     .then((result) => res.status(200).json(result))
     .catch((err) => {
@@ -12,19 +12,15 @@ exports.getAll = (req, res, next) => {
     });
 };
 exports.add = (req, res, next) => {
-    const a = new article.Article(
-      req.body.referenceArticle,
-      req.body.titre,
-      req.body.resumed,
-      req.body.prixUnit,
-      req.body.stock,
-      req.body.imageUrl
+    const a = new editeur.Editeur(
+      req.body.idE,
+      req.body.nomEditeur
     );
     console.log(a);
-    articleDao
+    editeurDao
       .add(a)
       .then((result) => {
-        a.referenceArticle = result.insertId;
+        a.idE = result.insertId;
         return res.status(201).json(a);
       })
       .catch((err) => {
