@@ -33,3 +33,15 @@ exports.add = (req, res, next) => {
         });
       });
   };
+
+  exports.getAllByParameter = (req, res, next) => {
+    const param = req.body.parameter;
+    console.log(param)
+    articleDao.getAllByParams(param)
+      .then((result) => res.status(200).json(result))
+      .catch((err) => {
+        return res.status(500).json({
+          error: `problème de récupération de données par paramètre: ${err}`,
+        });
+      });
+  };
