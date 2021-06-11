@@ -46,7 +46,8 @@ CREATE TABLE Editeur (
 
 
 CREATE TABLE Livre (
-    isbn13 int(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    idL int(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    isbn13 VARCHAR(30) NOT NULL,
     formatLivre VARCHAR(255) NOT NULL,
     livreArticle int(11) UNSIGNED,
     livreGenre int(11) UNSIGNED NOT NULL,
@@ -67,7 +68,7 @@ CREATE TABLE LivreAuteur (
     livreIdAuteur int(11) UNSIGNED NOT NULL,
     livreIdLivre int(11) UNSIGNED NOT NULL, 
     CONSTRAINT fk_livre_auteur_auteur FOREIGN KEY (livreIdAuteur) REFERENCES Auteur(idAu),
-    CONSTRAINT fk_livre_auteur_livre FOREIGN KEY (livreIdLivre) REFERENCES Livre(isbn13)
+    CONSTRAINT fk_livre_auteur_livre FOREIGN KEY (livreIdLivre) REFERENCES Livre(idL)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE Commande(
@@ -104,3 +105,58 @@ CREATE TABLE LigneCommande (
     CONSTRAINT fk_ligne_commande_article FOREIGN KEY (ligneCommandeArticle) REFERENCES Article(referenceArticle),
     CONSTRAINT fk_ligne_commande_commande FOREIGN KEY (ligneCommandeCommande) REFERENCES commande(numCommande)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO
+    article (titre, resumed, prixUnit, stock, imageUrl)
+VALUES
+    (
+        'NodeJS',
+        "Ce livre s'adresse aux développeurs souhaitant découvrir et maîtriser le framework JavaScript Node.",
+        99,
+        10,
+        "https://images-na.ssl-images-amazon.com/images/I/415RRgYCW2L._SX417_BO1,204,203,200_.jpg"
+    ),
+    (
+        'Angular',
+        "Ce livre permet aux lecteurs de se lancer dans le développement d'applications web avec le framework Angular (en version 8 au moment de l'écriture).",
+        99,
+        10,
+        "https://images-na.ssl-images-amazon.com/images/I/41mKFVuZXBL._SX403_BO1,204,203,200_.jpg"
+    );
+
+INSERT INTO
+    genre (genre)
+VALUES
+    ("Front-End"),
+    ("Back-End");
+
+INSERT INTO
+    Editeur (nomEditeur)
+VALUES
+    ("Broché");
+
+INSERT INTO
+    livre (
+        isbn13,
+        formatLivre,
+        livreArticle,
+        livreGenre,
+        livreEditeur
+    )
+VALUES
+    ("978-2746089785", "PDF", 1, 2, 1),
+    ("978-2409020926", "PDF", 2, 1, 1);
+
+INSERT INTO
+    auteur (nom, prenom)
+VALUES
+    ("Fontanet", "Julien"),
+    ("Ollivier", "Sébastien"),
+    ("Djordjevic", "Daniel");
+
+INSERT INTO
+    livreAuteur (livreIdAuteur, livreIdLivre)
+VALUES
+    (1, 1),
+    (2, 2),
+    (3, 2);

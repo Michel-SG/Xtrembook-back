@@ -6,6 +6,7 @@ const userRoute = require('./routes/user.route');
 const articleRoute = require('./routes/article.route');
 const auteurRoute = require('./routes/auteur.route');
 const editeurRoute = require('./routes/editeur.route');
+const livreRoute = require('./routes/livre.route');
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -20,6 +21,7 @@ app.use('/api/user', userRoute);
 app.use('/article',articleRoute);
 app.use('/auteur',auteurRoute);
 app.use('/editeur',editeurRoute);
+app.use('/livre',livreRoute);
 app.all('/*', (req, res) => {
     res
         .status(404)
