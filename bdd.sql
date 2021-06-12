@@ -106,6 +106,13 @@ CREATE TABLE LigneCommande (
     CONSTRAINT fk_ligne_commande_commande FOREIGN KEY (ligneCommandeCommande) REFERENCES commande(numCommande)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+INSERT INTO adresse (idA, num, typeVoie, nomVoie, codePostal, ville, pays)
+VALUES(1, 10, "chemin", "chemin du bassin", "13014", "Marseille", "France");
+
+INSERT INTO user (idU, email, motDePasse, nom, prenom, idAfacturation, idadmin)
+VALUES(1,"michel.sadeu@yahoo.fr", "$2b$10$1VMgUZXQbIuLYGjWT4eR1utIN5MJBYAWkHDHOAu8KdovDp4808cU2",
+        "SADEU NGAKOU", "Michel", 1, 1970);
+
 INSERT INTO
     article (titre, resumed, prixUnit, stock, imageUrl)
 VALUES
