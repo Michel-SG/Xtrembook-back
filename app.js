@@ -7,6 +7,7 @@ const articleRoute = require('./routes/article.route');
 const auteurRoute = require('./routes/auteur.route');
 const editeurRoute = require('./routes/editeur.route');
 const livreRoute = require('./routes/livre.route');
+const commandeRoute = require('./routes/commande.route');
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -18,6 +19,7 @@ app.use(express.json());
 
 
 app.use('/api/user', userRoute);
+app.use('/api/commande', commandeRoute);
 app.use('/article',articleRoute);
 app.use('/auteur',auteurRoute);
 app.use('/editeur',editeurRoute);
