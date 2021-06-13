@@ -14,8 +14,8 @@ exports.creerUser = async (req, res, next) => {
         req.body.adresse,
         req.body.idadmin
     );
-
-    let adresseFacturation = client.adresse[0];
+        console.log("back end "+client.adresse.nomDeVoie)
+    let adresseFacturation = client.adresse;
     let result = await adresseDao.addAdresse(adresseFacturation).catch(err => {
         return res.status(500).json({
             error: `problème d'insertion dans adresse: ${err}`
@@ -53,6 +53,7 @@ exports.connexion = (req, res, next) => {
                     res.status(200).json(result);
                 })
                 .catch((error) => res.status(500).json({ error }));
+               
         })
         .catch(err => {
             return res.status(500).json({

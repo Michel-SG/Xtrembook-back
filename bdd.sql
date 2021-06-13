@@ -1,10 +1,10 @@
-DROP DATABASE IF EXISTS xtrembook;
-CREATE DATABASE IF NOT EXISTS xtrembook;
-USE xtrembook;
+DROP DATABASE IF EXISTS xxtrembook;
+CREATE DATABASE IF NOT EXISTS xxtrembook;
+USE xxtrembook;
 
 CREATE TABLE Article (
     referenceArticle int(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    titre VARCHAR(30) NOT NULL,
+    titre VARCHAR(255) NOT NULL,
     resumed VARCHAR(255) NOT NULL,
     prixUnit int(11) NOT NULL,
     stock int(11) NOT NULL,
@@ -62,6 +62,15 @@ CREATE TABLE Auteur (
     nom VARCHAR(30) NOT NULL,
     prenom VARCHAR(30) NOT NULL
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE Administrateur (
+    idAd int(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    titre VARCHAR(255) NOT NULL,
+    resumed VARCHAR(255) NOT NULL,
+    prixUnit int(11) NOT NULL,
+    imageUrl text,
+    imageV text   
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
  
 CREATE TABLE LivreAuteur (
     idLA int(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -73,14 +82,14 @@ CREATE TABLE LivreAuteur (
 
 CREATE TABLE Commande(
     numCommande int(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    dateCommande DATETIME NOT NULL,
+    dateCommande DATE NOT NULL,
     userCommande int(11) UNSIGNED NOT NULL,
     CONSTRAINT fk_commande_user FOREIGN KEY (userCommande) REFERENCES User(idU)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE Facture(
     numFacture int(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    dateFacture DATETIME NOT NULL,
+    dateFacture DATE NOT NULL,
     factureCommande int(11) UNSIGNED NOT NULL,
     factureArticle int(11) UNSIGNED NOT NULL,
     CONSTRAINT fk_facture_commande FOREIGN KEY (factureCommande) REFERENCES Commande(numCommande),
@@ -106,6 +115,13 @@ CREATE TABLE LigneCommande (
     CONSTRAINT fk_ligne_commande_commande FOREIGN KEY (ligneCommandeCommande) REFERENCES commande(numCommande)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+INSERT INTO adresse (idA, num, typeVoie, nomVoie, codePostal, ville, pays)
+VALUES(1, 10, "chemin", "chemin du bassin", "13014", "Marseille", "France");
+
+INSERT INTO user (idU, email, motDePasse, nom, prenom, idAfacturation, idadmin)
+VALUES(1,"michel.sadeu@yahoo.fr", "$2b$10$1VMgUZXQbIuLYGjWT4eR1utIN5MJBYAWkHDHOAu8KdovDp4808cU2",
+        "SADEU NGAKOU", "Michel", 1, 1970);
+
 INSERT INTO
     article (titre, resumed, prixUnit, stock, imageUrl)
 VALUES
@@ -122,18 +138,72 @@ VALUES
         99,
         10,
         "https://images-na.ssl-images-amazon.com/images/I/41mKFVuZXBL._SX403_BO1,204,203,200_.jpg"
+    ),
+    (
+        'Data science : fondamentaux et études de cas',
+        "Nous vivons une époque très excitante, qui ramène l'analyse de données et les méthodes quantitatives au coeur de la société.",
+        50,
+        20,
+        "https://images-na.ssl-images-amazon.com/images/I/71TljvWc5HL.jpg"
+    ),
+    (
+        'Bases de données - Concepts, utilisation et développement',
+        "Ce manuel vise un triple objectif : comprendre les concepts théoriques, apprendre à utiliser des bases de données, 
+        et enfin savoir en construire de nouvelles.",
+        45,
+        50,
+        "https://images-na.ssl-images-amazon.com/images/I/71anmupSeJL.jpg"
+    ),
+    (
+        'Apprenez à programmer en Java',
+        "Vous tenez dans vos mains un livre conçu pour les débutants qui souhaitent se former à Java, 
+        le langage de programmation incontournable des professionnels !",
+        40,
+        80,
+        "https://m.media-amazon.com/images/P/B07L52KK7Z.01._SCLZZZZZZZ_SX500_.jpg"
+    ),
+    (
+        'Développer un site web en Php, Mysql et Javascript, Jquery, CSS3 et HTML5', 
+        "Créez des sites web interactifs et axés sur les données grâce à la puissante combinaison de technologies 
+        en source libre et de normes du Web, même si vous n'avez que des connaissances de base en HTML.",
+        50,
+        60,
+        "https://images-na.ssl-images-amazon.com/images/I/81O8ys1C64L.jpg"
+    ),
+    (
+        'Cinquante nuances de Grey',
+        "Romantique, libérateur et totalement addictif, ce roman vous obsédera, vous possédera et vous marquera à jamais.",
+        99,
+        99,
+        "https://images-na.ssl-images-amazon.com/images/I/81hm-mY-QkL.jpg"
+    ),
+    (
+        'Cybersécurité - 6e éd. - Analyser les risques, mettre en oeuvre les solutions',
+        "Le but de cet ouvrage est de fournir une vision globale des problématiques de 
+        sécurité et de criminalité informatique.",
+        999,
+        50,
+        "https://images-na.ssl-images-amazon.com/images/I/71c0eEyXLQL.jpg"
     );
 
 INSERT INTO
     genre (genre)
 VALUES
+    ("Back-End"),
     ("Front-End"),
-    ("Back-End");
+    ("Data-Science"),
+    ("Database"),
+    ("Cravate-End"),
+    ("Cybersécurité");
 
 INSERT INTO
     Editeur (nomEditeur)
 VALUES
-    ("Broché");
+    ("Eni"),
+    ("Eyrolles"),
+    ("Dunod"),
+    ("Reynald Goulet"),
+    ("JC Lattès");
 
 INSERT INTO
     livre (
@@ -144,19 +214,39 @@ INSERT INTO
         livreEditeur
     )
 VALUES
-    ("978-2746089785", "PDF", 1, 2, 1),
-    ("978-2409020926", "PDF", 2, 1, 1);
+    ("978-2746089785", "PDF", 1, 1, 1),
+    ("978-2409020926", "PDF", 2, 2, 1),
+    ("978-2212142433", "Broché", 3, 3, 2), 
+    ("978-2100790685", "Broché", 4, 4, 3),
+    ("978-2212675214", "Broché", 5, 1, 2),
+    ("978-2893775760", "Broché", 6, 2, 4),
+    ("978-2709642521", "Broché", 7, 5, 5),
+    ("978-2100790548", "Broché", 8, 6, 3);
 
 INSERT INTO
     auteur (nom, prenom)
 VALUES
     ("Fontanet", "Julien"),
     ("Ollivier", "Sébastien"),
-    ("Djordjevic", "Daniel");
+    ("Djordjevic", "Daniel"),
+    ("Michel", "Lutz"),
+    ("Eric", "Biernat"),
+    ("Jean-Luc", "Hainaut"),
+    ("Cyrille", "Herby"),
+    ("Robin", "Nixon"),
+    ("E L", "James"),
+    ("Solange", "Ghernaouti");
 
 INSERT INTO
     livreAuteur (livreIdAuteur, livreIdLivre)
 VALUES
     (1, 1),
     (2, 2),
-    (3, 2);
+    (3, 2),
+    (4, 3),
+    (5, 3),
+    (6, 4),
+    (7, 5),
+    (8, 6),
+    (9, 7),
+    (10, 8);

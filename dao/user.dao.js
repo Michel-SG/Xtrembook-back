@@ -22,3 +22,21 @@ exports.verifyUser = (email) => {
             });
     });
 };
+
+exports.updateUser = (idLivraison, email) => {
+    return new Promise((resolve, reject) => {
+        const req = connection.query(
+            "UPDATE user SET idAlivraison = ? WHERE email = ?", [idLivraison, email], (err, result) => {
+                console.log(req.sql)
+                err ? reject(err) : resolve(result);
+            });
+    });
+};
+exports.getidU = (email) => {
+    return new Promise((resolve, reject) => {
+        const req = connection.query("SELECT idU FROM user WHERE email=?",email, (err, result) => {
+            console.log(req.sql)
+            err ? reject(err) : resolve(result);
+        });
+    });
+};
