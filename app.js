@@ -9,6 +9,7 @@ const editeurRoute = require('./routes/editeur.route');
 const livreRoute = require('./routes/livre.route');
 const commandeRoute = require('./routes/commande.route');
 const consultationRoute = require('./routes/consultation.route');
+const commandeValideeRoute = require('./routes/commande-validee.route');
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -26,6 +27,7 @@ app.use('/article',articleRoute);
 app.use('/auteur',auteurRoute);
 app.use('/editeur',editeurRoute);
 app.use('/livre',livreRoute);
+app.use('/commande-validee',commandeValideeRoute);
 app.all('/*', (req, res) => {
     res
         .status(404)
