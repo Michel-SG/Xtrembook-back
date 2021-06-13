@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS xxtrembook;
-CREATE DATABASE IF NOT EXISTS xxtrembook;
-USE xxtrembook;
+DROP DATABASE IF EXISTS xtrembook;
+CREATE DATABASE IF NOT EXISTS xtrembook;
+USE xtrembook;
 
 CREATE TABLE Article (
     referenceArticle int(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
