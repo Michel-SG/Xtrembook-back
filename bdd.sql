@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS xtrembook;
-CREATE DATABASE IF NOT EXISTS xtrembook;
-USE xtrembook;
+DROP DATABASE IF EXISTS xxtrembook;
+CREATE DATABASE IF NOT EXISTS xxtrembook;
+USE xxtrembook;
 
 CREATE TABLE Article (
     referenceArticle int(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -61,6 +61,15 @@ CREATE TABLE Auteur (
     idAu int(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     nom VARCHAR(30) NOT NULL,
     prenom VARCHAR(30) NOT NULL
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE Administrateur (
+    idAd int(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    titre VARCHAR(255) NOT NULL,
+    resumed VARCHAR(255) NOT NULL,
+    prixUnit int(11) NOT NULL,
+    imageUrl text,
+    imageV text   
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
  
 CREATE TABLE LivreAuteur (
