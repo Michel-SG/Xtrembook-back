@@ -20,7 +20,7 @@ exports.add = (a) => {
 
 exports.getAllByParams = (params)=>{
     return new Promise((resolve, reject) => {
-        const req = connection.query("SELECT DISTINCT titre, resumed,prixUnit, stock, imageUrl FROM article WHERE titre LIKE ?", "%"+params+"%" , (err, result) => {
+        const req = connection.query("SELECT DISTINCT titre, resumed,prixUnit, stock, imageUrl, referenceArticle FROM article WHERE titre LIKE ?", "%"+params+"%" , (err, result) => {
             console.log(req.sql)
             err ? reject(err) : resolve(result);
         });
